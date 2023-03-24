@@ -1,7 +1,23 @@
 import React, {useState} from 'react';
 
-const AddTask = () => {
+const AddTask = ({taskList, setTaskList}) => {
     const [addModal,setAddModal] = useState(false);
+    const [projectName, setProjectName] = useState("");
+    const [taskDescription, setTaskDescription] = useState("");
+
+    const handleAdd = (e) => {
+        e.preventDefault();
+        setTaskList([...taskList, {projectName, taskDescription}]);
+        setAddModal(false);
+        setProjectName("");
+        setTaskDescription("");
+    }
+
+    const handleInputValue = (e) => {
+        const {name, value} = e.target;
+        if(name === "projectName") setProjectName(value);
+        if(name === "Task description") setTaskDescription(value);
+    }
 
     return (
         <>
@@ -13,17 +29,17 @@ const AddTask = () => {
             <>
                 <div className="flex items-center justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-100">
                     <div className="w-9/12 max-w-lg bg-white border rounded-lg shadow-mg relative flex flex-col">
-                        <div className=" flex flex-row justify-between p-5 border ">
+                        <div className=" flex flex-row justify-between p-5 border-b border-slate-200 rounded-t">
                             <h3 className="bg-white text-3xl font-semibold">Add new Task</h3>
                             <button className="px-1 text-gray-400 float-right text-3xl leading-none font-semibold block"
                                     onClick={() => setAddModal(false)}>X</button>
                         </div>
-                        <form className="p-6">
+                        <form className="px-6 pt-6 pb-4">
                             <div className="">
                                 <label className="track-wide uppercase text-gray-700 text-xs font-semibold mb-2 block"
                                  htmlFor="project-name">Project name</label>
-                                <input className="w-full  bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 mb-5 leading-tight focus: bg-white"
-                                 id="project-name" type="text" placeholder="Project name" required/>
+                                <input className="w-full  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-5 leading-tight focus:bg-white"
+                                 id="project-name" type="text" placeholder="Project name" name={"projectName"} value={projectName} onChange={(e) => handleInputValue(e)} required/>
                             </div>
                             <div className="">
                                 <label className="track-wide uppercase text-gray-700 text-xs font-semibold mb-2 block"
@@ -31,15 +47,20 @@ const AddTask = () => {
                                     Task description
                                 </label>
                                 <textarea
-                                className="w-full  bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 mb-5 leading-tight focus: bg-white"
+                                className="w-full  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-5 leading-tight focus:bg-white "
                                 id="task-description"
-                                rows="3"
+                                rows="5"
                                 placeholder="Task description"
+                                name="Task description"
+                                value={taskDescription}
+                                onChange={(e) => handleInputValue(e)}
                                 />
                             </div>
                         </form>
-                        <div className="flex jusytify-end p-6 border-t border-slate-200 rounded-b">
-                            <button className="bg-blue-500 text-white font-semibold uppercase text-sm px-6 py-3 rounded hover: opacity-70"></button>
+                        <div className="flex justify-end p-6 border-t border-slate-200 rounded-b">
+                            <button className="bg-blue-500 text-white font-semibold uppercase text-sm px-6 py-3 rounded hover: opacity-70"
+                            onClick={(e) => handleAdd(e)}
+                            >Add Task</button>
                         </div>
                     </div>
                 </div>
