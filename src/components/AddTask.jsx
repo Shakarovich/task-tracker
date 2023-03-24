@@ -12,7 +12,7 @@ const AddTask = () => {
             {addModal ?
             <>
                 <div className="flex items-center justify-center overflow-x-hidden overflow-y-auto fixed inset-0 z-100">
-                    <div className="w-9/12 bg-white border rounded-lg shadow-mg relative flex flex-col">
+                    <div className="w-9/12 max-w-lg bg-white border rounded-lg shadow-mg relative flex flex-col">
                         <div className=" flex flex-row justify-between p-5 border ">
                             <h3 className="bg-white text-3xl font-semibold">Add new Task</h3>
                             <button className="px-1 text-gray-400 float-right text-3xl leading-none font-semibold block"
@@ -38,7 +38,7 @@ const AddTask = () => {
                                 />
                             </div>
                         </form>
-                        <div>
+                        <div className="flex jusytify-end p-6 border-t border-slate-200 rounded-b">
                             <button className="bg-blue-500 text-white font-semibold uppercase text-sm px-6 py-3 rounded hover: opacity-70"></button>
                         </div>
                     </div>
