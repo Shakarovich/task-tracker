@@ -1,10 +1,23 @@
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import EditTask from "./EditTask";
 
 
 const ToDo = ({i, task, taskList, setTaskList}) => {
     const [time, setTime] = useState(0)
     const [running, setRunning] = useState(false)
+
+    useEffect(() =>{
+        let interval;
+        if(running) {
+            interval = setInterval(() =>{
+                setTime((prevTime) => prevTime + 10)
+            }, 10)
+        } else if(!running) {
+            clearInterval(interval)
+        }
+        return() => clearInterval(interval)
+    },[running])
+
     const handleDelete = (itemID) => {
         let removeIndex = taskList.indexOf(task)
         taskList.splice(removeIndex, 1)
@@ -19,26 +32,26 @@ const ToDo = ({i, task, taskList, setTaskList}) => {
             </div>
             <p className="text-lg py-2">{task?.taskDescription}</p>
                 <div className="w-full flex flex-row items-center justify-evenly">
-                    <div className="text-xl font-semibold py-4">
+                    <div className="w-1/4  text-xl font-semibold py-4">
                         <span>{("0" + Math.floor((time / 3600000) % 24)).slice(-2)}{":"}</span>
                         <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}{":"}</span>
                         <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}{":"}</span>
-                        <span className="text-sm">{("0" + Math.floor((time / 10) % 1)).slice(-2)}</span>
+                        <span className="text-sm">{("0" + Math.floor((time / 10) % 100)).slice(-2)}</span>
                     </div>
                     <div className="w-1/3 max-w-sm flex flex-row justify-evenly ">
                         {running ?
                             (
                                 <>
-                                    <button className="border rounded-lg py-1 px-3">Stop</button>
+                                    <button onClick={() => {setRunning(false)}} className="border rounded-lg py-1 px-3">Stop</button>
                                 </>
                             )
                             :
                             (
                                 <>
-                                    <button className="border rounded-lg py-1 px-3">Start</button>
+                                    <button onClick={() => {setRunning(true)}} className="border rounded-lg py-1 px-3">Start</button>
                                 </>
                             )}
-                        <button className="border rounded-lg py-1 px-3">Reset</button>
+                        <button onClick={() => {setTime(0)}} className="border rounded-lg py-1 px-3">Reset</button>
                     </div>
                 </div>
 
