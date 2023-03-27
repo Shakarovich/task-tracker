@@ -24,6 +24,19 @@ const ToDo = ({i, task, taskList, setTaskList}) => {
         setTaskList((currentTasks => currentTasks.filter(todo => todo.id === itemID)))
     }
 
+    const handleStop = () => {
+        setRunning(false);
+        let taskIndex = taskList.indexOf(task)
+        taskList.splice(taskIndex,1, {
+            projectName: task.projectName,
+            taskDescription: task.taskDescription,
+            timestamp:task.timestamp,
+            duration: time
+        })
+        localStorage.setItem("taskList", JSON.stringify(taskList))
+        window.location.reload();
+    };
+
     return (
         <div className="flex flex-col items-start justify-start bg-white my-4 ml-6 py-4 px-6 w-3/4 max-w-lg">
             <div className="flex flex-row justify-between">
@@ -42,7 +55,7 @@ const ToDo = ({i, task, taskList, setTaskList}) => {
                         {running ?
                             (
                                 <>
-                                    <button onClick={() => {setRunning(false)}} className="border rounded-lg py-1 px-3">Stop</button>
+                                    <button onClick={() => {handleStop()}} className="border rounded-lg py-1 px-3">Stop</button>
                                 </>
                             )
                             :

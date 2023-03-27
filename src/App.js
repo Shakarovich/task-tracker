@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import AddTask from "./components/AddTask";
 import ToDo from "./components/ToDo";
 
@@ -6,6 +6,12 @@ import ToDo from "./components/ToDo";
 function App() {
   const [taskList, setTaskList] = useState([])
 
+useEffect(() => {
+    let array = localStorage.getItem("taskList");
+    if(array) {
+        setTaskList(JSON.parse(array));
+    }
+},[])
   return (
     <>
       <h1 className="text-2xl font-bold py-6 pl-6">03 - The Task Tracker</h1>
@@ -17,10 +23,8 @@ function App() {
       </div>
         <div className="">
             <h2 className="ml-6 text-xl font-semibold w-3/4  max-w-lg py-2 px-2 my-4 bg-gray-300">To Do:</h2>
-            {taskList.slice(0).reverse().map((task,i) => (
-                <>
+            {taskList.map((task,i) => (
                   <ToDo key={i} task={task} taskList={taskList} setTaskList={setTaskList}/>
-                </>
             ))}
         </div>
     </>
