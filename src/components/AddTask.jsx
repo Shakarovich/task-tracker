@@ -4,18 +4,29 @@ const AddTask = ({taskList, setTaskList}) => {
     const [addModal,setAddModal] = useState(false);
     const [projectName, setProjectName] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
-
+    const [errorMessage, setErrorMessage] = useState("")
+    const ERRORTEXT = "Enter project name to continue"
     const handleAdd = (e) => {
-        e.preventDefault();
-        setTaskList([...taskList, {projectName, taskDescription}]);
-        setAddModal(false);
-        setProjectName("");
-        setTaskDescription("");
+            e.preventDefault();
+        if(!projectName) {
+            setErrorMessage(ERRORTEXT)
+        } else {
+            setTaskList([...taskList, {projectName, taskDescription}]);
+            setAddModal(false);
+            setProjectName("");
+            setTaskDescription("");
+        }
     }
 
     const handleInputValue = (e) => {
         const {name, value} = e.target;
-        if(name === "projectName") setProjectName(value);
+        if(name === "projectName") {
+            setProjectName(value);
+            setErrorMessage("")
+        }
+        if(name === "projectName" && value === "") {
+            setErrorMessage(ERRORTEXT)
+        }
         if(name === "Task description") setTaskDescription(value);
     }
 
@@ -38,8 +49,9 @@ const AddTask = ({taskList, setTaskList}) => {
                             <div className="">
                                 <label className="track-wide uppercase text-gray-700 text-xs font-semibold mb-2 block"
                                  htmlFor="project-name">Project name</label>
-                                <input className="w-full  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-5 leading-tight focus:bg-white"
+                                <input className="w-full  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4  leading-tight focus:bg-white"
                                  id="project-name" type="text" placeholder="Project name" name={"projectName"} value={projectName} onChange={(e) => handleInputValue(e)} required/>
+                                <p className="text-red-500 text-center mt-2 md-5">{errorMessage}</p>
                             </div>
                             <div className="">
                                 <label className="track-wide uppercase text-gray-700 text-xs font-semibold mb-2 block"

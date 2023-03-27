@@ -1,10 +1,15 @@
-import React, {useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 const EditTask = ({index, task, taskList, setTaskList}) => {
     const [editModal, setEditModal] = useState(false);
     const [projectName, setProjectName] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
 
+
+    useEffect(() => {
+        setProjectName(task.projectName);
+        setTaskDescription(task.taskDescription);
+    },[])
     const handleUpdate = (e) => {
         e.preventDefault();
         let taskIndex = taskList.indexOf(task)
@@ -18,6 +23,8 @@ const EditTask = ({index, task, taskList, setTaskList}) => {
         if(name === "projectName") setProjectName(value);
         if(name === "Task description") setTaskDescription(value);
     }
+
+
 
     return (
         <>

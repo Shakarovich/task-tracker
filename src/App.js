@@ -17,7 +17,7 @@ function App() {
       </div>
         <div className="">
             <h2 className="ml-6 text-xl font-semibold w-3/4  max-w-lg py-2 px-2 my-4 bg-gray-300">To Do:</h2>
-            {taskList.map((task,i) => (
+            {taskList.slice(0).reverse().map((task,i) => (
                 <>
                   <ToDo key={i} task={task} taskList={taskList} setTaskList={setTaskList}/>
                 </>
